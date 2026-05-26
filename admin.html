@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Faith &amp; Fellowship</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ===== LOGIN VIEW ===== -->
+  <div class="admin-view" id="viewLogin">
+    <div class="admin-card login-card">
+      <h1>Faith &amp; Fellowship</h1>
+      <p class="login-sub">Admin Panel</p>
+      <form id="loginForm">
+        <label>
+          Admin Password
+          <input type="password" id="loginPassword" required>
+        </label>
+        <label>
+          GitHub Token (<a href="https://github.com/settings/tokens" target="_blank">create one</a> with <code>repo</code> scope)
+          <input type="password" id="loginToken" required>
+        </label>
+        <div class="form-row">
+          <label>
+            Repo Owner
+            <input type="text" id="loginOwner"  required>
+          </label>
+          <label>
+            Repo Name
+            <input type="text" id="loginRepo" value="christian-blog" required>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <p class="login-error" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD VIEW ===== -->
+  <div class="admin-view" id="viewDashboard" style="display:none">
+    <header class="admin-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">Faith &amp; Fellowship</a>
+        <nav>
+          <a href="index.html" target="_blank" class="nav-link">View Site</a>
+          <button id="logoutBtn" class="nav-link" style="background:none;border:none;cursor:pointer">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="admin-main container">
+      <div class="dash-top">
+        <h2>Your Posts</h2>
+        <button id="newPostBtn" class="btn btn-primary">+ New Post</button>
+      </div>
+
+      <div class="loading" id="dashLoading">Loading posts...</div>
+
+      <table class="posts-table" id="postsTable" style="display:none">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="postsBody"></tbody>
+      </table>
+
+      <p class="empty-state" id="emptyState" style="display:none">No posts yet. Click "+ New Post" to create your first post!</p>
+    </main>
+  </div>
+
+  <!-- ===== EDITOR VIEW ===== -->
+  <div class="admin-view" id="viewEditor" style="display:none">
+    <header class="admin-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">Faith &amp; Fellowship</a>
+        <nav>
+          <button id="editorBackBtn" class="nav-link" style="background:none;border:none;cursor:pointer">&larr; Back</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="admin-main container">
+      <h2 id="editorTitle">New Post</h2>
+      <form id="editorForm" class="editor-form">
+        <div class="form-row">
+          <label>
+            Title
+            <input type="text" id="edTitle" required>
+          </label>
+          <label>
+            Slug
+            <input type="text" id="edSlug" required>
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            Category
+            <input type="text" id="edCategory" placeholder="e.g. Faith, Prayer, Grace" required>
+          </label>
+          <label>
+            Author
+            <input type="text" id="edAuthor" value="Ministry Team" required>
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            Date
+            <input type="date" id="edDate" required>
+          </label>
+          <label>
+            Image URL
+            <input type="url" id="edImage" placeholder="https://images.unsplash.com/...">
+          </label>
+        </div>
+        <label>
+          Excerpt (shown on the blog grid)
+          <textarea id="edExcerpt" rows="2" required></textarea>
+        </label>
+        <label>
+          Content (HTML allowed)
+          <textarea id="edContent" rows="12" required></textarea>
+        </label>
+        <div class="editor-actions">
+          <button type="submit" class="btn btn-primary" id="edSaveBtn">Publish Post</button>
+          <button type="button" class="btn btn-secondary" id="edCancelBtn">Cancel</button>
+        </div>
+        <p class="form-msg" id="edMsg"></p>
+      </form>
+    </main>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

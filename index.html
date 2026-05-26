@@ -21,6 +21,7 @@
         <ul class="nav-list">
           <li><a href="#home" class="nav-link active">Home</a></li>
           <li><a href="#posts" class="nav-link">Posts</a></li>
+          <li><a href="#subscribe" class="nav-link">Subscribe</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
@@ -48,6 +49,22 @@
         <div class="posts-grid" id="postsGrid">
           <!-- rendered by JS -->
         </div>
+      </div>
+    </section>
+
+    <!-- ===== SUBSCRIBE ===== -->
+    <section class="section subscribe-section" id="subscribe">
+      <div class="container">
+        <h2 class="section-title">Stay Connected</h2>
+        <p class="section-subtitle">Subscribe to receive new posts delivered straight to your inbox.</p>
+        <form class="subscribe-form" id="subscribeForm" netlify>
+          <input type="hidden" name="form-name" value="subscribe">
+          <div class="subscribe-inner">
+            <input type="email" name="email" placeholder="Enter your email address" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </div>
+          <p class="subscribe-success" id="subscribeSuccess">Thanks for subscribing! You'll hear from us soon.</p>
+        </form>
       </div>
     </section>
 
@@ -94,8 +111,10 @@
       <ul class="footer-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#posts">Posts</a></li>
+        <li><a href="#subscribe">Subscribe</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><a href="admin.html">Admin</a></li>
       </ul>
       <p class="footer-copy">&copy; 2026 Faith &amp; Fellowship. All rights reserved.</p>
     </div>

@@ -133,5 +133,17 @@ document.getElementById('contactForm').addEventListener('submit', (e) => {
   }, 2500);
 });
 
+/* ===== SUBSCRIBE FORM ===== */
+const subForm = document.getElementById('subscribeForm');
+if (subForm) {
+  subForm.addEventListener('submit', (e) => {
+    if (!subForm.classList.contains('netlify')) {
+      e.preventDefault();
+      document.getElementById('subscribeSuccess').classList.add('visible');
+      subForm.querySelector('.subscribe-inner').style.display = 'none';
+    }
+  });
+}
+
 /* ===== INIT ===== */
 loadPosts();
