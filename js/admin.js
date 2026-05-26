@@ -115,7 +115,7 @@ function showView(view) {
 
 function showDashboard() {
   showView(viewDashboard);
-  switchTab(document.querySelector('.tab.active'));
+  switchTab('posts');
 }
 
 function showEditor(post = null) {
@@ -145,13 +145,11 @@ function showEditor(post = null) {
 
 /* ===== TABS ===== */
 document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => switchTab(tab));
+  tab.addEventListener('click', () => switchTab(tab.dataset.tab));
 });
 
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  tab.classList.add('active');
-  const tabId = tab.dataset.tab;
+function switchTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
   document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
   const content = document.getElementById(`tab${tabId.charAt(0).toUpperCase() + tabId.slice(1)}`);
   if (content) content.style.display = '';
@@ -193,17 +191,32 @@ function renderDashboardPosts() {
   postsTable.style.display = '';
   emptyState.style.display = 'none';
   postsBody.innerHTML = allPosts.map(p => `
-    <tr>
+    <tr data-post-id="${p.id}">
       <td class="post-title">${escHtml(p.title)}</td>
       <td><span class="post-category">${escHtml(p.category)}</span></td>
       <td>${p.date}</td>
       <td class="actions">
-        <button class="btn btn-secondary btn-sm" onclick="editPost('${escHtml(p.id)}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deletePost('${escHtml(p.id)}')">Delete</button>
+        <button class="btn btn-secondary btn-sm act-edit">Edit</button>
+        <button class="btn btn-danger btn-sm act-delete">Delete</button>
       </td>
     </tr>
   `).join('');
 }
+
+/* ===== EVENT DELEGATION for Edit/Delete buttons ===== */
+postsBody.addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const row = btn.closest('tr[data-post-id]');
+  if (!row) return;
+  const id = row.dataset.postId;
+
+  if (btn.classList.contains('act-edit')) {
+    editPost(id);
+  } else if (btn.classList.contains('act-delete')) {
+    deletePost(id);
+  }
+});
 
 function escHtml(s) {
   const d = document.createElement('div');
@@ -219,12 +232,16 @@ logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('adminRepo');
   showView(viewLogin);
 });
-editorBackBtn.addEventListener('click', () => { showDashboard(); switchTab(document.querySelector('[data-tab="posts"]')); });
-document.getElementById('edCancelBtn').addEventListener('click', () => { showDashboard(); switchTab(document.querySelector('[data-tab="posts"]')); });
+editorBackBtn.addEventListener('click', showDashboard);
+document.getElementById('edCancelBtn').addEventListener('click', showDashboard);
 
 function editPost(id) {
   const post = allPosts.find(p => p.id === id);
-  if (post) showEditor(post);
+  if (!post) {
+    alert('Post not found in index. Try refreshing.');
+    return;
+  }
+  showEditor(post);
 }
 
 async function deletePost(id) {
@@ -287,7 +304,7 @@ editorForm.addEventListener('submit', async (e) => {
 
     edMsg.textContent = 'Post published! Redirecting...';
     edMsg.className = 'form-msg success';
-    setTimeout(() => { showDashboard(); switchTab(document.querySelector('[data-tab="posts"]')); }, 800);
+    setTimeout(showDashboard, 800);
   } catch (err) {
     edMsg.textContent = 'Error: ' + err.message;
     edMsg.className = 'form-msg error';
@@ -298,7 +315,6 @@ editorForm.addEventListener('submit', async (e) => {
 /* ===== SETTINGS EDITOR ===== */
 const SETTINGS_PATH = 'site-config.json';
 
-/* Map setting field IDs to config paths */
 const SETTINGS_FIELDS = [
   'siteName', 'metaDescription',
   'hero-title', 'hero-subtitle', 'hero-bgImage',
