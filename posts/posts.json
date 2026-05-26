@@ -1,19 +1,10 @@
 [
   {
-    "id": "walking-in-faith",
-    "title": "Walking in Faith Through Life's Storms",
-    "date": "2026-05-24",
-    "author": "Ministry Team",
-    "excerpt": "Life brings trials that test our spirit. Discover how faith can be your anchor in the midst of life's fiercest storms.",
-    "category": "Faith",
-    "image": "https://images.unsplash.com/photo-1504052434564-5ac4fc2b6cb0?w=800&q=80"
-  },
-  {
     "id": "power-of-prayer",
     "title": "The Transformative Power of Daily Prayer",
     "date": "2026-05-18",
     "author": "Ministry Team",
-    "excerpt": "Prayer is more than a ritual — it's a lifeline. Learn how establishing a daily prayer practice can transform your relationship with God.",
+    "excerpt": "Prayer is more than a ritual â it's a lifeline. Learn how establishing a daily prayer practice can transform your relationship with God.",
     "category": "Prayer",
     "image": "https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=800&q=80"
   },
