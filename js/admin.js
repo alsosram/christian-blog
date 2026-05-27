@@ -1,5 +1,5 @@
 /* ===== CONFIG ===== */
-const ADMIN_PASSWORD_HASH = 'REDACTED';
+const ADMIN_PASSWORD = 'REDACTED';
 
 /* ===== STATE ===== */
 let token = '';
@@ -43,13 +43,6 @@ const settingsForm = document.getElementById('settingsForm');
 const settingsMsg = document.getElementById('settingsMsg');
 const settingsSaveBtn = document.getElementById('settingsSaveBtn');
 
-/* ===== SHA-256 ===== */
-async function sha256(str) {
-  const buf = new TextEncoder().encode(str);
-  const hash = await crypto.subtle.digest('SHA-256', buf);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
 /* ===== GITHUB API HELPERS ===== */
 async function ghFetch(path, method = 'GET', body = null) {
   const opts = { method, headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } };
@@ -85,12 +78,11 @@ async function deleteFile(path, sha) {
 }
 
 /* ===== LOGIN ===== */
-loginForm.addEventListener('submit', async (e) => {
+loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
   loginError.textContent = '';
   const pw = document.getElementById('loginPassword').value;
-  const pwHash = await sha256(pw);
-  if (pwHash !== ADMIN_PASSWORD_HASH) {
+  if (pw !== ADMIN_PASSWORD) {
     loginError.textContent = 'Incorrect password.';
     return;
   }
