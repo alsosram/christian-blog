@@ -3,16 +3,17 @@
 html { scroll-behavior: smooth; }
 
 :root {
-  --clr-primary: #2D5A8E;
-  --clr-primary-dark: #1E3D63;
+  --clr-primary: #7B9DB0;
+  --clr-primary-dark: #5A7D90;
   --clr-accent: #C9953C;
-  --clr-accent-light: #E8D4A8;
-  --clr-bg: #FDFBF7;
-  --clr-bg-alt: #F5F0E8;
-  --clr-text: #2C2420;
-  --clr-text-light: #6B5E55;
-  --clr-white: #FFFFFF;
-  --clr-border: #E0D6C8;
+  --clr-accent-light: #4A3D2A;
+  --clr-bg: #1C1A18;
+  --clr-bg-alt: #242220;
+  --clr-surface: #2C2924;
+  --clr-text: #D4CDC0;
+  --clr-text-light: #8A8478;
+  --clr-white: #E8E2D4;
+  --clr-border: #3A3632;
 
   --ff-serif: 'Playfair Display', Georgia, serif;
   --ff-sans: 'Inter', -apple-system, sans-serif;
@@ -23,8 +24,8 @@ html { scroll-behavior: smooth; }
   --fs-base: 1rem;
   --fs-small: 0.875rem;
 
-  --shadow-sm: 0 2px 8px rgba(44,36,32,0.06);
-  --shadow-md: 0 8px 30px rgba(44,36,32,0.10);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.25);
+  --shadow-md: 0 8px 30px rgba(0,0,0,0.35);
   --radius: 12px;
   --max-width: 1200px;
   --header-h: 72px;
@@ -37,6 +38,18 @@ body {
   color: var(--clr-text);
   background: var(--clr-bg);
   -webkit-font-smoothing: antialiased;
+}
+
+/* ===== SCROLL PARCHMENT TEXTURE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 img { max-width: 100%; display: block; }
@@ -67,7 +80,7 @@ ul { list-style: none; }
   background: var(--clr-primary-dark);
   color: var(--clr-white);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(45,90,142,0.30);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
 
 /* ===== HEADER ===== */
@@ -75,7 +88,7 @@ ul { list-style: none; }
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--header-h);
-  background: rgba(253,251,247,0.90);
+  background: rgba(28,26,24,0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--clr-border);
@@ -139,7 +152,7 @@ ul { list-style: none; }
   position: relative;
   --hero-bg: none;
   background:
-    linear-gradient(135deg, rgba(29,38,50,0.75) 0%, rgba(45,90,142,0.55) 100%),
+    linear-gradient(135deg, rgba(10,10,10,0.80) 0%, rgba(28,26,24,0.60) 100%),
     var(--hero-bg, none) center/cover fixed;
   margin-top: calc(-1 * var(--header-h));
   padding-top: var(--header-h);
@@ -193,7 +206,7 @@ ul { list-style: none; }
   gap: 30px;
 }
 .post-card {
-  background: var(--clr-white);
+  background: var(--clr-surface);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -256,13 +269,13 @@ ul { list-style: none; }
 }
 .modal-overlay.open { display: flex; }
 .modal {
-  background: var(--clr-white);
+  background: var(--clr-surface);
   border-radius: var(--radius);
   max-width: 720px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
   animation: modalFade 0.3s ease;
 }
 @keyframes modalFade {
@@ -325,10 +338,10 @@ ul { list-style: none; }
 .subscribe-inner {
   display: flex;
   gap: 12px;
-  background: var(--clr-white);
+  background: var(--clr-surface);
   border-radius: 50px;
   padding: 6px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
 }
 .subscribe-inner input {
   flex: 1;
@@ -406,14 +419,14 @@ ul { list-style: none; }
   font-family: var(--ff-sans);
   font-size: var(--fs-base);
   color: var(--clr-text);
-  background: var(--clr-white);
+  background: var(--clr-surface);
   transition: border-color 0.2s;
 }
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
   border-color: var(--clr-primary);
-  box-shadow: 0 0 0 3px rgba(45,90,142,0.10);
+  box-shadow: 0 0 0 3px rgba(123,157,176,0.15);
 }
 .contact-form textarea { resize: vertical; }
 .contact-form .btn { align-self: flex-start; }
@@ -479,9 +492,9 @@ ul { list-style: none; }
     top: 0; right: -100%;
     width: 260px;
     height: 100vh;
-    background: var(--clr-white);
+    background: var(--clr-surface);
     padding: 100px 40px 40px;
-    box-shadow: -8px 0 30px rgba(0,0,0,0.10);
+    box-shadow: -8px 0 30px rgba(0,0,0,0.30);
     transition: right 0.35s ease;
     z-index: 999;
   }
