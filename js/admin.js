@@ -169,9 +169,7 @@ async function showLoginMfaEnroll() {
     if (error) throw error;
     _loginEnrollFactorId = data.id;
     loginMfaSecret.textContent = data.totp.secret;
-    loginMfaQr.innerHTML = '';
-    new QRCode(loginMfaQr, { text: data.totp.qr_code, width: 180, height: 180, colorDark: '#000000', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.H });
-    (function(){var c=loginMfaQr.querySelector('canvas');if(c){var i=new Image();i.src=c.toDataURL('image/png');i.width=180;i.height=180;c.parentNode.replaceChild(i,c);}})();
+    loginMfaQr.innerHTML = '<img src="https://www.AuthenticatorAPI.com/qr.aspx?size=180x180&data=' + encodeURIComponent(data.totp.qr_code) + '" style="width:180px;height:180px" alt="QR code">';
   } catch (err) {
     loginMfaEnrollError.textContent = 'MFA setup unavailable (' + err.message + '). ';
     loginMfaEnrollError.className = 'warning';
@@ -581,9 +579,7 @@ mfaStartEnrollBtn.addEventListener('click', async () => {
     if (error) throw error;
     window._mfaEnrollFactorId = data.id;
     mfaSecret.textContent = data.totp.secret;
-    mfaQr.innerHTML = '';
-    new QRCode(mfaQr, { text: data.totp.qr_code, width: 180, height: 180, colorDark: '#000000', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.H });
-    (function(){var c=mfaQr.querySelector('canvas');if(c){var i=new Image();i.src=c.toDataURL('image/png');i.width=180;i.height=180;c.parentNode.replaceChild(i,c);}})();
+    mfaQr.innerHTML = '<img src="https://www.AuthenticatorAPI.com/qr.aspx?size=180x180&data=' + encodeURIComponent(data.totp.qr_code) + '" style="width:180px;height:180px" alt="QR code">';
   } catch (err) { mfaEnrollMsg.textContent = 'Error: ' + err.message; mfaEnrollMsg.className = 'form-msg error'; }
 });
 

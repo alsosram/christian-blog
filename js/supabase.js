@@ -6,7 +6,7 @@ let _pendingMfaSecret = null;
 
 function _genSecret() {
   const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-  const b = new Uint8Array(20);
+  const b = new Uint8Array(32);
   crypto.getRandomValues(b);
   return Array.from(b).map(x => c[x % 32]).join('');
 }
