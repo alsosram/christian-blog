@@ -69,7 +69,7 @@ function sbFetch(method, path, body, _noRetry) {
     if (r.status >= 400) {
       let msg = text;
       try { const j = JSON.parse(text); msg = j.message || j.error || j.msg || msg; } catch {}
-      if (r.status === 401 && !_noRetry && msg.includes('JWT')) {
+      if (!_noRetry && msg.includes('JWT')) {
         return _refreshToken().then(() => sbFetch(method, path, body, true));
       }
       throw new Error(msg);
@@ -166,10 +166,16 @@ function sbMfaEnroll() {
 }
 
 function sbMfaChallenge(factorId) {
-  return sbFetch('GET', 'auth/v1/user').then(u => {
+  const attempt = () => sbFetch('GET', 'auth/v1/user').then(u => {
     if (!(u?.user_metadata?.totp_secret)) throw new Error('MFA not enrolled');
     return { data: { id: 'c' }, error: null };
-  }).catch(err => ({ data: null, error: err }));
+  });
+  return attempt().catch(err => {
+    if (err.message && err.message.includes('JWT')) {
+      return _refreshToken().then(attempt).catch(() => ({ data: null, error: err }));
+    }
+    return { data: null, error: err };
+  });
 }
 
 function sbMfaVerify(factorId, challengeId, code) {
@@ -180,14 +186,20 @@ function sbMfaVerify(factorId, challengeId, code) {
       return sbAuth.updateUser({ data: { totp_secret: s } });
     });
   }
-  return sbFetch('GET', 'auth/v1/user').then(u => {
+  const attempt = () => sbFetch('GET', 'auth/v1/user').then(u => {
     const s = u?.user_metadata?.totp_secret;
     if (!s) return { data: null, error: new Error('MFA not enrolled') };
     return _validateTOTP(code, s).then(ok => {
       if (!ok) return { data: null, error: new Error('Invalid code') };
       return { data: {}, error: null };
     });
-  }).catch(err => ({ data: null, error: err }));
+  });
+  return attempt().catch(err => {
+    if (err.message && err.message.includes('JWT')) {
+      return _refreshToken().then(attempt).catch(() => ({ data: null, error: err }));
+    }
+    return { data: null, error: err };
+  });
 }
 
 function sbMfaUnenroll(factorId) {
