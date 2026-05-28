@@ -651,5 +651,8 @@ sbAuth.getSession().then(async ({ data: { session } }) => {
       repo = meta.github_repo;
     }
   }
-  if (session) showDashboard();
+  if (session) {
+    if (session.user?.user_metadata?.totp_secret) showDashboard();
+    else showLoginMfaEnroll();
+  }
 });
